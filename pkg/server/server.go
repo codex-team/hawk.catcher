@@ -30,8 +30,8 @@ type Server struct {
 	ErrorsHandler errorshandler.Handler
 
 	// handler for release processing
-	ReleaseHander releasehandler.Handler
-	RedisClient   *redis.RedisClient
+	ReleaseHandler releasehandler.Handler
+	RedisClient    *redis.RedisClient
 
 	BlacklistThreshold int
 	NotifyURL          string
@@ -69,7 +69,7 @@ func (s *Server) Run() {
 	}
 
 	// handler of sourcemap messages via HTTP
-	s.ReleaseHander = releasehandler.Handler{
+	s.ReleaseHandler = releasehandler.Handler{
 		ReleaseExchange:              s.Config.ReleaseExchange,
 		Broker:                       s.Broker,
 		JwtSecret:                    s.Config.JwtSecret,
@@ -128,7 +128,7 @@ func (s *Server) handler(ctx *fasthttp.RequestCtx) {
 	case "/ws":
 		s.ErrorsHandler.HandleWebsocket(ctx)
 	case "/release":
-		s.ReleaseHander.HandleHTTP(ctx)
+		s.ReleaseHandler.HandleHTTP(ctx)
 	default:
 		ctx.Error("Not found", fasthttp.StatusNotFound)
 	}
