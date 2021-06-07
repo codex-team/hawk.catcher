@@ -4,7 +4,7 @@ import (
 	"context"
 	"os"
 
-	"github.com/caarlos0/env"
+	"github.com/caarlos0/env/v6"
 	"github.com/codex-team/hawk.collector/cmd"
 	"github.com/codex-team/hawk.collector/pkg/broker"
 	"github.com/codex-team/hawk.collector/pkg/hawk"

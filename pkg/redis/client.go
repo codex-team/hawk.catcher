@@ -7,8 +7,9 @@ import (
 	"sync"
 	"time"
 
-	"github.com/cenkalti/backoff"
+	"github.com/cenkalti/backoff/v4"
 	"github.com/go-redis/redis/v8"
+	log "github.com/sirupsen/logrus"
 )
 
 var ErrWrongKey = errors.New("key doesn't exist")
@@ -94,7 +95,11 @@ func (r *RedisClient) load() error {
 	if err != nil {
 		return err
 	}
+	if len(keys) != len(r.blockedIDs) {
+		log.Debugf("Banned projects list has been updated. Number of projects changed %d -> %d", len(r.blockedIDs), len(keys))
+	}
 	r.blockedIDs = keys
+
 	return nil
 }
 
